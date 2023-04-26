@@ -13,6 +13,8 @@ export function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
+  const exchangeRate = props.context.exchange_rate
+
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -48,7 +50,7 @@ export function Row(props) {
                         {productRow.name}
                       </TableCell>
                       <TableCell>category name</TableCell>
-                      <TableCell align="right">{productRow.price}</TableCell>
+                      <TableCell align="right">{productRow.price * exchangeRate}</TableCell>
                       <TableCell align="right">{productRow.amount}</TableCell>
                     </TableRow>
                   ))}

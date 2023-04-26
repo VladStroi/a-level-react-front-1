@@ -46,7 +46,7 @@ export default function CollapsibleTable(props) {
         <TableBody>
           {prodByCategory.map((row) => (
            
-            <Row key={row.categoryId} row={row} /> 
+            <Row key={row.categoryId} row={row} context={props.context}/> 
           ))}
         </TableBody>
       </Table>
