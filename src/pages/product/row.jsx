@@ -49,7 +49,7 @@ export function Row(props) {
                       <TableCell component="th" scope="row">
                         {productRow.name}
                       </TableCell>
-                      <TableCell>category name</TableCell>
+                      <TableCell align="right">{row.categoryName}</TableCell>
                       <TableCell align="right">{productRow.price * exchangeRate}</TableCell>
                       <TableCell align="right">{productRow.amount}</TableCell>
                     </TableRow>
