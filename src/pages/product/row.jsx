@@ -8,13 +8,20 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useContext } from "react";
+import { useMemo } from "react";
+import { ContextCurrency } from "../../context/currency";
 
 export function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
-  const exchangeRate = props.context.exchange_rate
+  const currencyContext = useContext(ContextCurrency)
 
+  const exchangeRate = useMemo(() => {
+    return currencyContext?.exchange_rate || 1
+  }, [currencyContext?.exchange_rate])
+  
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -33,10 +40,9 @@ export function Row(props) {
         <TableCell component="th" scope="row">
           {row.products.length} products
         </TableCell>
-        {/* <TableCell align="right">{row.name}</TableCell>
-          <TableCell align="right">{row.category?.name}</TableCell>
-          <TableCell align="right">{row.price}</TableCell>
-          <TableCell align="right">{row.amount}</TableCell> */}
+        <TableCell component="th" scope="row">
+        </TableCell>
+       
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -49,8 +55,8 @@ export function Row(props) {
                       <TableCell component="th" scope="row">
                         {productRow.name}
                       </TableCell>
-                      <TableCell align="right">{row.categoryName}</TableCell>
-                      <TableCell align="right">{productRow.price * exchangeRate}</TableCell>
+                      <TableCell >{row.categoryName}</TableCell>
+                      <TableCell align="center">{productRow.price * exchangeRate}</TableCell>
                       <TableCell align="right">{productRow.amount}</TableCell>
                     </TableRow>
                   ))}

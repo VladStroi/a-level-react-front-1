@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Table from "./table";
 import axios from "axios";
+// import { ContextCurrency } from "../../context/currency";
+import { Typography } from "@mui/material";
 
 function ProductList(props) {
   const [products, setProducts] = useState([]);
@@ -41,7 +43,8 @@ function ProductList(props) {
   return (
     <article>
       <section>
-        <Table products={mappedProducts} categories={categories} context={props.context.currentCurrency}></Table>
+        <Typography variant="h3">Poduct list</Typography>
+        <Table products={mappedProducts} categories={categories}></Table>
       </section>
     </article>
   );
