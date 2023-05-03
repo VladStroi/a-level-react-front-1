@@ -1,21 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { stateValues } from "../common/state-values";
-import axios from "axios";
+import { stateValues } from '../../common/state-values';
+import { api } from '../../services/api';
 
 export const fetchProducts = createAsyncThunk(
-  "productList/getALL",
+  "groupedProductList/getAll",
   async () => {
     const response = await Promise.all([
-      axios.get("http://localhost:3010/product"),
-      axios.get("http://localhost:3010/category"),
+      api.getProducts(),
+      api.getCategories(),
     ]);
     const [products, categories] = response;
     if (products.data.items.length && categories.data.items.length) {
       return products.data.items
-        .map((el) => {
-          const id = el.category;
+        .map((product) => {
+          const id = product.category;
           const category = categories.data.items.find((elC) => elC.id === id);
-          return { ...el, category };
+          return { ...product, category };
         })
         .reduce((acc, el) => {
           let categoryIndex = acc.findIndex(
@@ -39,8 +39,9 @@ export const fetchProducts = createAsyncThunk(
     return response.data;
   }
 );
-export const ProductSlice = createSlice({
-  name: "productList",
+
+export const groupedProductsSlice = createSlice({
+  name: "grouppedProduct",
   initialState: {
     value: 100,
     products: [],
@@ -67,5 +68,5 @@ export const ProductSlice = createSlice({
       });
   },
 });
-export const { toIdleStatus } = ProductSlice.actions;
-export default ProductSlice.reducer;
+export const { toIdleStatus } = groupedProductsSlice.actions;
+export const groupedProductsReducer = groupedProductsSlice.reducer;

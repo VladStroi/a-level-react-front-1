@@ -1,27 +1,26 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
+import { useMemo } from "react";
+import {
+  Box,
+  Collapse,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@mui/material";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useContext } from "react";
-import { useMemo } from "react";
-import { ContextCurrency } from "../../context/currency";
 
-export function Row(props) {
-  const { row } = props;
+export const Row = ({ row, currency }) => {
   const [open, setOpen] = React.useState(false);
 
-  const currencyContext = useContext(ContextCurrency)
+  const exchangeRate = useMemo(
+    () => currency.exchange_rate,
+    [currency]
+  );
 
-  const exchangeRate = useMemo(() => {
-    return currencyContext?.exchange_rate || 1
-  }, [currencyContext?.exchange_rate])
-  
   return (
     <>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -42,7 +41,6 @@ export function Row(props) {
         </TableCell>
         <TableCell component="th" scope="row">
         </TableCell>
-       
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -50,14 +48,16 @@ export function Row(props) {
             <Box sx={{ margin: 1 }}>
               <Table size="small" aria-label="purchases">
                 <TableBody>
-                  {row.products.map((productRow) => (
-                    <TableRow key={productRow.id}>
+                  {row.products.map((product) => (
+                    <TableRow key={product.id}>
                       <TableCell component="th" scope="row">
-                        {productRow.name}
+                        {product.name}
                       </TableCell>
                       <TableCell >{row.categoryName}</TableCell>
-                      <TableCell align="center">{productRow.price * exchangeRate}</TableCell>
-                      <TableCell align="right">{productRow.amount}</TableCell>
+                      <TableCell align="center">
+                        {currency.symbol} {product.price * exchangeRate}
+                      </TableCell>
+                      <TableCell align="right">{product.amount}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -68,4 +68,4 @@ export function Row(props) {
       </TableRow>
     </>
   );
-}
+};

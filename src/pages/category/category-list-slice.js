@@ -1,24 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { stateValues } from "../common/state-values";
-import axios from "axios";
-import { KeyboardReturnRounded } from "@mui/icons-material";
+import { stateValues } from '../../common/state-values';
+import { api } from '../../services/api';
 
 export const fetchCategory = createAsyncThunk(
-  "productList/getALL",
+  "categoryList/getAll",
   async () => {
-    const response = await axios.get("http://localhost:3010/product");
-    console.log(response.data);
-    return response.data
-  }
+    const response = await api.getCategories();
+    return response.data;
+  },
 );
 
-
-
-export const counterSlice = createSlice({
+export const categorySlice = createSlice({
   name: "categoryList",
   initialState: {
     categories: [],
-    error: null,
+    error: undefined,
     status: stateValues.idle,
   },
   reducers: {
@@ -33,7 +29,7 @@ export const counterSlice = createSlice({
       })
       .addCase(fetchCategory.fulfilled, (state, action) => {
         state.status = stateValues.succeeded;
-        state.categories = [...action.payload];
+        state.categories = action.payload.items;
       })
       .addCase(fetchCategory.rejected, (state, action) => {
         state.status = stateValues.failed;
@@ -41,5 +37,6 @@ export const counterSlice = createSlice({
       });
   },
 });
-export const { toIdleStatus } = counterSlice.actions;
-export default counterSlice.reducer;
+
+export const { toIdleStatus } = categorySlice.actions;
+export const categoryReducer = categorySlice.reducer;

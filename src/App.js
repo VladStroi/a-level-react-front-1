@@ -1,33 +1,27 @@
-import "./App.css";
-import * as React from "react";
-import ProductList from "./pages/product/product-list";
-import ButtonAppBar from "./app-bar";
-import { useState } from "react";
-import { ContextCurrency } from "./context/currency";
-import { BrowserRouter } from "react-router-dom";
-import { Route, Routes } from "react-router";
-import CategoryList from "./pages/category/category-list";
+import * as React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 
+import { Header } from './app-bar';
+import { routes } from './pages/routes';
+import { rootStore } from './store';
 
+import './App.css';
 
-function App() {
-  const [currentCurrency, setCurrentCurrency] = useState(null);
+export const App = () => {
   return (
-    // <Provider>
-    <div className="App">
-      <ContextCurrency.Provider value={currentCurrency}>
+    <Provider store={rootStore}>
+      <div className="App">
         <BrowserRouter>
-          <ButtonAppBar context={{ currentCurrency, setCurrentCurrency }} />
+          <Header />
           <Routes>
-            <Route path="" element={<ProductList />}/>
-            <Route path="categories" element={<CategoryList />}/>
+            {routes.map((route, index) => (
+              <Route key={index} path={route.path} element={route.content} />
+            ))}
           </Routes>
-          
         </BrowserRouter>
-      </ContextCurrency.Provider>
-    </div>
-    // </Provider>
+      </div>
+    </Provider>
   );
-}
-
-export default App;
+};

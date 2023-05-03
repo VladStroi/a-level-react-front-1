@@ -1,17 +1,12 @@
 import * as React from "react";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import MainMenuItem from "./main-menu-item";
+import { MainMenuItem } from "./main-menu-item";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { routes } from './pages/routes';
 
-const pages = [
-    { name: "Products", path: "/" },
-    { name: "Category", path: "/categories" },
-    { name: "Currency", path: "/currency" },
-]
-
-export default function MainMenuItems() {
+export const MainMenuItems = () => {
   const [anchorMenu, setAnchorMenu] = useState(null);
 
   const navigate = useNavigate()
@@ -20,13 +15,16 @@ export default function MainMenuItems() {
 
   const handleClickMenu = (event, menuItem) => {
     setAnchorMenu(event.currentTarget);
-    if (menuItem) navigate(menuItem.path)
-};
-const handleCloseMenu = (event, select) => {
+    if (menuItem) {
+      navigate(menuItem.path);
+    }
+  };
+
+  const handleCloseMenu = (event, select) => {
     setAnchorMenu(null);
     if (select) navigate(select.path)
   };
-  
+
   return (
     <>
       <MenuIcon
@@ -46,11 +44,16 @@ const handleCloseMenu = (event, select) => {
           "aria-labelledby": "basic-button",
         }}
       >
-       {pages.map((page) => {
-        return <MainMenuItem handleCloseMenu={handleCloseMenu} menu={page} key={page.name}/>
-            
-       })}
+        {routes.map((page) => {
+          return (
+            <MainMenuItem
+              key={page.name}
+              handleCloseMenu={handleCloseMenu}
+              menu={page}
+            />
+          )
+        })}
       </Menu>
     </>
   );
-}
+};
