@@ -3,6 +3,7 @@ import { groupedProductsReducer } from './pages/grouped-product/grouped-product-
 import { categoryReducer } from "./pages/category/category-list-slice";
 import { productsReducer } from './pages/products/products-slice';
 import { currenciesReducer } from './common/currency/currency-slice';
+import { orderReducer } from './order/order-slice';
 
 export const rootStore = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const rootStore = configureStore({
     categoriesList: categoryReducer,
     productsList: productsReducer,
     groupedProducts: groupedProductsReducer,
+    shoppingCart: orderReducer
   },
 });

@@ -43,14 +43,6 @@ export const ProductsTable = ({ products, onChange, totalCount, defaultPagesPerP
     [currentPage, onChange, pagesPerPage]
   );
 
-  const onAddToCart = useCallback(
-    product => {
-      // TODO: not implemented
-      console.log(product)
-    },
-    []
-  );
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -58,7 +50,7 @@ export const ProductsTable = ({ products, onChange, totalCount, defaultPagesPerP
           <TableRow>
             <TableCell align="left">Name</TableCell>
             <TableCell align="center">Price</TableCell>
-            <TableCell align="right">Amount</TableCell>
+            <TableCell align="right">In Stock</TableCell>
             <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -67,7 +59,6 @@ export const ProductsTable = ({ products, onChange, totalCount, defaultPagesPerP
             <ProductRow
               key={product.id}
               product={product}
-              onAddToCart={onAddToCart}
               currency={currentCurrency}
             />
           ))}

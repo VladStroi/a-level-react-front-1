@@ -55,7 +55,7 @@ export const Row = ({ row, currency }) => {
                       </TableCell>
                       <TableCell >{row.categoryName}</TableCell>
                       <TableCell align="center">
-                        {currency.symbol} {product.price * exchangeRate}
+                        {currency?.symbol} {product.price * exchangeRate}
                       </TableCell>
                       <TableCell align="right">{product.amount}</TableCell>
                     </TableRow>

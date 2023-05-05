@@ -16,5 +16,23 @@ export const api = {
   },
   getCurrencies: () => {
     return axios.get(`${API_HOST}/currency`);
-  }
+  },
+  placeOrder: ({ cartItems, ...userData }) => {
+    const requestData = {
+      ...userData,
+      products: cartItems.map(
+        ({ id, quantity, price }) => ({
+          id,
+          amount: quantity,
+          price,
+        })
+      ),
+    };
+
+    return axios.post(`${API_HOST}/order`, requestData).then(
+      res => new Promise(
+        (resolve) => setTimeout(() => { resolve(res) }, 1000)
+      )
+    );
+  },
 };

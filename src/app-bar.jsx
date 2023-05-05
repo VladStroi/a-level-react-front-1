@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 import { MainMenuItems } from './main-menu-items';
 import { CurrencyContainer } from './common/currency/currency-container';
+import { ShoppingCart } from './order/cart';
 
 export const Header = () => {
   return (
@@ -13,7 +14,7 @@ export const Header = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             VladStroi Shop
           </Typography>
-          <Button color="inherit">Login</Button>
+          <ShoppingCart />
         </Toolbar>
       </AppBar>
     </Box>
