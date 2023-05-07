@@ -2,29 +2,31 @@ import { AttachMoney } from '@mui/icons-material';
 import { Menu, MenuItem } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeCurrency, fetchCurrencies } from './currency-slice';
-import { stateValues } from '../state-values';
+import { changeCurrency, fetchCurrency } from './currency-slice';
+import { Status } from '../../constants/types';
 
 export const CurrencyContainer = () => {
   const {
     status,
     currentCurrency,
     currencies,
-  } = useSelector(state => state.currency);
+  } = useSelector(state => state.currencyState);
   const dispatch = useDispatch();
   useEffect(
     () => {
-      if (status === stateValues.idle) {
-        dispatch(fetchCurrencies());
+      if (status === Status.Idle) {
+        dispatch(fetchCurrency());
       }
     },
     [status, dispatch]
   );
   const [anchorCurrency, setAnchorCurrency] = useState(null);
   const handleClickCurrency = event => setAnchorCurrency(event.currentTarget);
-  const createOnSelectCurrencyHandler = (currency) => () => {
+  const createOnSelectCurrencyHandler = (nextCurrency) => () => {
     setAnchorCurrency(null);
-    dispatch(changeCurrency(currency));
+    if (nextCurrency) {
+      dispatch(changeCurrency(nextCurrency));
+    }
   };
 
   const stringifiedCurrentCurrency = currentCurrency
@@ -38,7 +40,12 @@ export const CurrencyContainer = () => {
         edge="start"
         color="inherit"
         aria-label="menu"
-        sx={{ mr: 2 }}
+        sx={{
+          mr: 2,
+          '&:hover': {
+            cursor: 'pointer',
+          },
+        }}
         onClick={handleClickCurrency}
       />
       {stringifiedCurrentCurrency}
@@ -46,7 +53,7 @@ export const CurrencyContainer = () => {
         id="currency-menu"
         anchorEl={anchorCurrency}
         open={Boolean(anchorCurrency)}
-        onClose={createOnSelectCurrencyHandler}
+        onClose={createOnSelectCurrencyHandler()}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}

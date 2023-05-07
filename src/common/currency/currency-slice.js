@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { stateValues } from '../../common/state-values';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Status } from '../../constants/types';
 import { api } from '../../services/api';
 
-export const fetchCurrencies = createAsyncThunk(
-  "currencies/getAll",
+export const fetchCurrency = createAsyncThunk(
+  'currency/getAll',
   async () => {
     const response = await api.getCurrencies();
     return response.data;
@@ -11,12 +11,12 @@ export const fetchCurrencies = createAsyncThunk(
 );
 
 export const currenciesSlice = createSlice({
-  name: "currencies",
+  name: 'currency',
   initialState: {
     currencies: [],
     currentCurrency: undefined,
     error: undefined,
-    status: stateValues.idle,
+    status: Status.Idle,
   },
   reducers: {
     changeCurrency: (state, action) => {
@@ -25,20 +25,20 @@ export const currenciesSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchCurrencies.pending, (state) => {
-        state.status = stateValues.loading;
+      .addCase(fetchCurrency.pending, (state) => {
+        state.status = Status.Loading;
       })
-      .addCase(fetchCurrencies.fulfilled, (state, action) => {
-        state.status = stateValues.succeeded;
+      .addCase(fetchCurrency.fulfilled, (state, action) => {
+        state.status = Status.Succeeded;
         state.currencies = action.payload.items;
         state.currentCurrency = action.payload.items[0];
       })
-      .addCase(fetchCurrencies.rejected, (state, action) => {
-        state.status = stateValues.failed;
+      .addCase(fetchCurrency.rejected, (state, action) => {
+        state.status = Status.Failed;
         state.error = action.error.message;
       });
   },
 });
 
 export const { changeCurrency } = currenciesSlice.actions;
-export const currenciesReducer = currenciesSlice.reducer;
+export const currencyReducer = currenciesSlice.reducer;

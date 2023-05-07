@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Route, Routes } from 'react-router';
 
 import { Header } from './app-bar';
-import { routes } from './pages/routes';
-import { rootStore } from './store';
+import { routes } from './pages';
+import { rootStore } from './common/rootStore';
 
 import './App.css';
 

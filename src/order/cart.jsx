@@ -76,7 +76,14 @@ export const ShoppingCart = () => {
   return (
     <div>
       <Badge badgeContent={amount} color="info" invisible={!amount}>
-        <ShoppingCartIcon onClick={handleClickOpen} />
+        <ShoppingCartIcon
+          onClick={handleClickOpen}
+          sx={{
+            '&:hover': {
+              cursor: 'pointer',
+            },
+          }}
+        />
       </Badge>
 
       <Dialog

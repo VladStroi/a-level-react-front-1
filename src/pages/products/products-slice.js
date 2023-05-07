@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { stateValues } from '../../common/state-values';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Status } from '../../constants/types';
 import { api } from '../../services/api';
 
 export const fetchProducts = createAsyncThunk(
-  "productsList/getAll",
+  'products/getAll',
   async (params) => {
     const response = await api.getProducts(params);
     return response.data;
@@ -11,34 +11,34 @@ export const fetchProducts = createAsyncThunk(
 );
 
 export const productsSlice = createSlice({
-  name: "productsList",
+  name: 'products',
   initialState: {
     products: [],
     totalCount: 0,
     error: undefined,
-    status: stateValues.idle,
+    status: Status.Idle,
   },
   reducers: {
     toIdleStatus: (state) => {
-      state.status = stateValues.idle;
+      state.status = Status.Idle;
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchProducts.pending, (state, action) => {
-        state.status = stateValues.loading;
+      .addCase(fetchProducts.pending, state => {
+        state.status = Status.Loading;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = stateValues.succeeded;
+        state.status = Status.Succeeded;
         state.products = action.payload.items;
         state.totalCount = action.payload.totalCount;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
-        state.status = stateValues.failed;
+        state.status = Status.Failed;
         state.error = action.error.message;
       });
   },
 });
 
-export const { toIdleStatus } = productsSlice.actions;
+export const { toIdleStatus: setProductsIdleStatus } = productsSlice.actions;
 export const productsReducer = productsSlice.reducer;

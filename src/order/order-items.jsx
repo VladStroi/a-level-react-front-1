@@ -18,7 +18,7 @@ import { removeItem, updateProductQuantity } from './order-slice';
 
 const OrderItem = ({ product }) => {
   const dispatch = useDispatch();
-  const { currentCurrency } = useSelector((state) => state.currency);
+  const { currentCurrency } = useSelector((state) => state.currencyState);
   const onDelete = useCallback(
     () => dispatch(removeItem(product)),
     [dispatch, product]
@@ -61,7 +61,7 @@ const OrderItem = ({ product }) => {
 }
 
 const OrderTotal = ({ total }) => {
-  const { currentCurrency } = useSelector((state) => state.currency);
+  const { currentCurrency } = useSelector((state) => state.currencyState);
   if (!currentCurrency) {
     return null;
   }
