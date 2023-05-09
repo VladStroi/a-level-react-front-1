@@ -30,9 +30,6 @@ export const ProductsContainer = () => {
 
   const isLoading = status === Status.Loading;
 
-  // TODO: error handling
-  // TODO: empty products view
-
   return (
     <article>
       <section>
